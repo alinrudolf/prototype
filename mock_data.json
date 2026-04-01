@@ -1,0 +1,199 @@
+{
+  "surveys": [
+    {
+      "id": "survey_001",
+      "title": "Skincare Routine Study - Romania",
+      "client": "L'Oreal",
+      "markets": ["RO"],
+      "language": "RO",
+      "category": "skincare",
+      "methodology": "usage & attitude",
+      "date": "2023-05",
+      "is_legacy": false,
+      "questions": [
+        {
+          "id": "q_001_1",
+          "text": "Cât de des folosiți produse de îngrijire a pielii?",
+          "type": "single_choice"
+        },
+        {
+          "id": "q_001_2",
+          "text": "Care sunt principalele beneficii pe care le căutați?",
+          "type": "multiple_choice"
+        }
+      ],
+      "answers_summary": [
+        {
+          "question_id": "q_001_1",
+          "insight": "62% dintre respondenți folosesc produse zilnic"
+        },
+        {
+          "question_id": "q_001_2",
+          "insight": "Hidratarea este cel mai important beneficiu (74%)"
+        }
+      ]
+    },
+    {
+      "id": "survey_002",
+      "title": "Skincare Usage Habits - Poland",
+      "client": "L'Oreal",
+      "markets": ["PL"],
+      "language": "PL",
+      "category": "skincare",
+      "methodology": "usage & attitude",
+      "date": "2023-06",
+      "is_legacy": false,
+      "questions": [
+        {
+          "id": "q_002_1",
+          "text": "Jak często używasz produktów do pielęgnacji skóry?",
+          "type": "single_choice"
+        },
+        {
+          "id": "q_002_2",
+          "text": "Jakie korzyści są dla Ciebie najważniejsze?",
+          "type": "multiple_choice"
+        }
+      ],
+      "answers_summary": [
+        {
+          "question_id": "q_002_1",
+          "insight": "58% użytkowników stosuje produkty codziennie"
+        },
+        {
+          "question_id": "q_002_2",
+          "insight": "Nawilżenie jest kluczowym benefitem (70%)"
+        }
+      ]
+    },
+    {
+      "id": "survey_003",
+      "title": "Global Skincare Concept Test",
+      "client": "L'Oreal",
+      "markets": ["RO", "PL", "UK"],
+      "language": "EN",
+      "category": "skincare",
+      "methodology": "concept test",
+      "date": "2024-01",
+      "is_legacy": false,
+      "questions": [
+        {
+          "id": "q_003_1",
+          "text": "How appealing is this new skincare concept?",
+          "type": "scale"
+        },
+        {
+          "id": "q_003_2",
+          "text": "What benefits do you associate with this product?",
+          "type": "open_text"
+        }
+      ],
+      "answers_summary": [
+        {
+          "question_id": "q_003_1",
+          "insight": "Average appeal score: 7.8/10 across markets"
+        },
+        {
+          "question_id": "q_003_2",
+          "insight": "Hydration and anti-aging mentioned most frequently"
+        }
+      ]
+    },
+    {
+      "id": "survey_004",
+      "title": "Haircare Product Awareness - UK",
+      "client": "Unilever",
+      "markets": ["UK"],
+      "language": "EN",
+      "category": "haircare",
+      "methodology": "awareness",
+      "date": "2022-11",
+      "is_legacy": false,
+      "questions": [
+        {
+          "id": "q_004_1",
+          "text": "Which haircare brands are you aware of?",
+          "type": "multiple_choice"
+        }
+      ],
+      "answers_summary": [
+        {
+          "question_id": "q_004_1",
+          "insight": "Dove and Pantene have highest awareness"
+        }
+      ]
+    },
+    {
+      "id": "survey_005",
+      "title": "Legacy Skincare Study 2018",
+      "client": "L'Oreal",
+      "markets": ["RO"],
+      "language": "RO",
+      "category": "skincare",
+      "methodology": "usage",
+      "date": "2018-03",
+      "is_legacy": true,
+      "questions": [
+        {
+          "id": "q_005_1",
+          "text": "Ce produse cosmetice utilizați regulat?",
+          "type": "multiple_choice"
+        }
+      ],
+      "answers_summary": [
+        {
+          "question_id": "q_005_1",
+          "insight": "Produsele de hidratare dominate piața în 2018"
+        }
+      ]
+    },
+    {
+      "id": "survey_006",
+      "title": "Beverage Consumption Study - Poland",
+      "client": "Coca-Cola",
+      "markets": ["PL"],
+      "language": "PL",
+      "category": "beverages",
+      "methodology": "usage",
+      "date": "2023-08",
+      "is_legacy": false,
+      "questions": [
+        {
+          "id": "q_006_1",
+          "text": "Jak często spożywasz napoje gazowane?",
+          "type": "single_choice"
+        }
+      ],
+      "answers_summary": [
+        {
+          "question_id": "q_006_1",
+          "insight": "40% konsumuje napoje gazowane co najmniej raz w tygodniu"
+        }
+      ]
+    },
+    {
+      "id": "survey_007",
+      "title": "Skincare Daily Routine Study - UK",
+      "client": "L'Oreal",
+      "markets": ["UK"],
+      "language": "EN",
+      "category": "skincare",
+      "methodology": "usage & attitude",
+      "date": "2023-07",
+      "is_legacy": false,
+      "questions": [
+        {
+          "id": "q_007_1",
+          "text": "How often do you apply skincare products?",
+          "type": "single_choice"
+        }
+      ],
+      "answers_summary": [
+        {
+          "question_id": "q_007_1",
+          "insight": "65% apply skincare daily"
+        }
+      ]
+    }
+  ]
+}
