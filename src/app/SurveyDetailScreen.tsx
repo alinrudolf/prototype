@@ -41,7 +41,12 @@ export default function SurveyDetailScreen({
 
   return (
     <section className="panel panel--tight">
-      <div className="panel__title">Survey Detail</div>
+      <div className="panel__title-row">
+        <div>
+          <div className="panel__eyebrow">Detail</div>
+          <div className="panel__title">Survey Detail</div>
+        </div>
+      </div>
 
       <div className="detail__meta">
         <div className="detail__header">

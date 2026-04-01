@@ -55,7 +55,12 @@ export default function AiDraftBuilderScreen({
 
   return (
     <section className="panel panel--tight">
-      <div className="panel__title">AI Draft Builder</div>
+      <div className="panel__title-row">
+        <div>
+          <div className="panel__eyebrow">Draft</div>
+          <div className="panel__title">AI Draft Builder</div>
+        </div>
+      </div>
 
       <div className="draft__access">
         {permittedClient ? (
@@ -108,19 +113,26 @@ export default function AiDraftBuilderScreen({
           </div>
 
           <div className="draft__sections">
+            <div className="detail__label">Generated draft structure</div>
             {draft.sections.map((section) => (
               <div key={section.title} className="draft__section">
                 <div className="draft__section-title">{section.title}</div>
                 <div className="draft__section-desc">{section.description}</div>
                 <div className="draft__section-questions">
-                  {section.questions.map((question) => (
-                    <div key={question.questionId} className="draft__question">
-                      {question.text}
-                      <span className="draft__citation">
-                        ({question.surveyId})
-                      </span>
+                  {section.questions.length > 0 ? (
+                    section.questions.map((question) => (
+                      <div key={question.questionId} className="draft__question">
+                        {question.text}
+                        <span className="draft__citation">
+                          ({question.surveyId})
+                        </span>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="detail__empty">
+                      No reusable questions found for this section.
                     </div>
-                  ))}
+                  )}
                 </div>
               </div>
             ))}
@@ -141,7 +153,7 @@ export default function AiDraftBuilderScreen({
           </div>
 
           <div className="draft__citations">
-            <div className="detail__label">Citations</div>
+            <div className="detail__label">Citations (grounding)</div>
             <div className="draft__citation-list">
               {draft.citations.map((citation) => (
                 <div key={citation.surveyId} className="draft__citation-item">

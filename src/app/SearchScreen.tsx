@@ -112,7 +112,12 @@ export default function SearchScreen({
       </header>
 
       <section className="panel panel--tight">
-        <div className="panel__title">Search Historical Surveys</div>
+        <div className="panel__title-row">
+          <div>
+            <div className="panel__eyebrow">Search</div>
+            <div className="panel__title">Search Historical Surveys</div>
+          </div>
+        </div>
         <div className="search__grid">
           <label className="field field--full">
             <span className="field__label">Query</span>
@@ -240,7 +245,15 @@ export default function SearchScreen({
       </section>
 
       <section className="panel panel--tight">
-        <div className="panel__title">Results</div>
+          <div className="panel__title-row">
+            <div>
+              <div className="panel__eyebrow">Results</div>
+              <div className="panel__title">Results</div>
+            </div>
+            {filters.client && (
+              <span className="badge badge--type">Client scoped</span>
+            )}
+          </div>
         {filters.client && (
           <div className="scope-banner">
             Client scope: <strong>{filters.client}</strong> • Results limited to
@@ -367,7 +380,12 @@ export default function SearchScreen({
       </section>
 
       <section className="panel panel--tight">
-        <div className="panel__title">Selection</div>
+        <div className="panel__title-row">
+          <div>
+            <div className="panel__eyebrow">Selection</div>
+            <div className="panel__title">Selection</div>
+          </div>
+        </div>
         {selection ? (
           <div className="selection">
             <div className="selection__title">Prepared for Survey Detail</div>
@@ -395,7 +413,12 @@ export default function SearchScreen({
       </section>
 
       <section className="panel panel--tight">
-        <div className="panel__title">Draft Reuse Queue</div>
+        <div className="panel__title-row">
+          <div>
+            <div className="panel__eyebrow">Reuse</div>
+            <div className="panel__title">Draft Reuse Queue</div>
+          </div>
+        </div>
         {draftSelection.questions.length === 0 &&
         draftSelection.sections.length === 0 ? (
           <div className="empty-state">
