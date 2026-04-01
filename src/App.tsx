@@ -52,6 +52,20 @@ export default function App() {
     });
   };
 
+  const handleRemoveQuestion = (questionId: string) => {
+    setDraftSelection((prev) => ({
+      ...prev,
+      questions: prev.questions.filter((item) => item.questionId !== questionId),
+    }));
+  };
+
+  const handleRemoveSection = (surveyId: string) => {
+    setDraftSelection((prev) => ({
+      ...prev,
+      sections: prev.sections.filter((section) => section.surveyId !== surveyId),
+    }));
+  };
+
   return (
     <div className="page page--dense">
       <SearchScreen
@@ -83,6 +97,8 @@ export default function App() {
           methodologies: [],
         }}
         selection={draftSelection}
+        onRemoveQuestion={handleRemoveQuestion}
+        onRemoveSection={handleRemoveSection}
       />
     </div>
   );

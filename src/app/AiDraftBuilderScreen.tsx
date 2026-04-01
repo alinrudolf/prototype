@@ -12,6 +12,8 @@ type Props = {
   permittedClient: string;
   filters: SearchFilters;
   selection: DraftSelection;
+  onRemoveQuestion: (questionId: string) => void;
+  onRemoveSection: (surveyId: string) => void;
 };
 
 const emptyDraft: AIDraftOutput = {
@@ -32,6 +34,8 @@ export default function AiDraftBuilderScreen({
   permittedClient,
   filters,
   selection,
+  onRemoveQuestion,
+  onRemoveSection,
 }: Props) {
   const surveys = useMemo(() => getNormalizedSurveys(), []);
   const [objective, setObjective] = useState("");
@@ -157,17 +161,56 @@ export default function AiDraftBuilderScreen({
         </div>
       )}
 
-      {selection.questions.length > 0 && (
+      {(selection.questions.length > 0 || selection.sections.length > 0) && (
         <div className="draft__reuse">
           <div className="detail__label">Reuse queue (from Survey Detail)</div>
-          <div className="draft__section-questions">
-            {selection.questions.map((question) => (
-              <div key={question.questionId} className="draft__question">
-                {question.text}
-                <span className="draft__citation">({question.surveyId})</span>
-              </div>
-            ))}
-          </div>
+          {selection.sections.length > 0 && (
+            <div className="draft__reuse-block">
+              {selection.sections.map((section) => (
+                <div key={section.surveyId} className="draft__reuse-item">
+                  <div>
+                    <div className="draft__question">
+                      Section: {section.title}
+                      <span className="draft__citation">
+                        ({section.surveyId})
+                      </span>
+                    </div>
+                    <div className="draft__reuse-meta">
+                      {section.questionIds.length} questions
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    className="button"
+                    onClick={() => onRemoveSection(section.surveyId)}
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+          {selection.questions.length > 0 && (
+            <div className="draft__reuse-block">
+              {selection.questions.map((question) => (
+                <div key={question.questionId} className="draft__reuse-item">
+                  <div className="draft__question">
+                    {question.text}
+                    <span className="draft__citation">
+                      ({question.surveyId})
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    className="button"
+                    onClick={() => onRemoveQuestion(question.questionId)}
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </section>

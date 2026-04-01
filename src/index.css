@@ -588,6 +588,26 @@ textarea {
   gap: 8px;
 }
 
+.draft__reuse-block {
+  display: grid;
+  gap: 6px;
+}
+
+.draft__reuse-item {
+  border: 1px solid #d9dde3;
+  border-radius: 8px;
+  padding: 8px 10px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+.draft__reuse-meta {
+  font-size: 11px;
+  color: #5a6b7a;
+}
+
 @media (max-width: 900px) {
   .search__grid {
     grid-template-columns: 1fr;
