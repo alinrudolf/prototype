@@ -36,6 +36,9 @@ export default function SurveyDetailScreen({
     (section) => section.surveyId === survey.id
   );
 
+  const hasQuestions = survey.questions.length > 0;
+  const hasSummaries = survey.answersSummary.length > 0;
+
   return (
     <section className="panel panel--tight">
       <div className="panel__title">Survey Detail</div>
@@ -43,9 +46,10 @@ export default function SurveyDetailScreen({
       <div className="detail__meta">
         <div className="detail__header">
           <div>
-            <div className="detail__title">{survey.title}</div>
+            <div className="detail__title">{survey.title || "Untitled survey"}</div>
             <div className="detail__subtitle">
-              Client: <strong>{survey.client}</strong> • Date: {survey.date}
+              Client: <strong>{survey.client || "Unknown"}</strong> • Date:{" "}
+              {survey.date || "—"}
             </div>
           </div>
           <div className="detail__badges">
@@ -57,36 +61,41 @@ export default function SurveyDetailScreen({
         <div className="detail__grid">
           <div>
             <div className="detail__label">Markets</div>
-            <div>{survey.markets.join(", ")}</div>
+            <div>{survey.markets.length ? survey.markets.join(", ") : "—"}</div>
           </div>
           <div>
             <div className="detail__label">Language</div>
-            <div>{survey.language}</div>
+            <div>{survey.language || "—"}</div>
           </div>
           <div>
             <div className="detail__label">Category</div>
-            <div>{survey.category}</div>
+            <div>{survey.category || "—"}</div>
           </div>
           <div>
             <div className="detail__label">Methodology</div>
-            <div>{survey.methodology}</div>
+            <div>{survey.methodology || "—"}</div>
           </div>
         </div>
 
         <div className="detail__access">
-          Access allowed for client scope: <strong>{permittedClient}</strong>
+          Access allowed due to client scope:{" "}
+          <strong>{permittedClient || "—"}</strong>
         </div>
       </div>
 
       <div className="detail__why">
         <div className="detail__label">Why this was retrieved</div>
-        <div className="detail__tags">
-          {whyMatched.map((reason) => (
-            <span key={reason} className="tag">
-              {reason}
-            </span>
-          ))}
-        </div>
+        {whyMatched.length ? (
+          <div className="detail__tags">
+            {whyMatched.map((reason) => (
+              <span key={reason} className="tag">
+                {reason}
+              </span>
+            ))}
+          </div>
+        ) : (
+          <div className="detail__empty">No match explanation available.</div>
+        )}
       </div>
 
       <div className="detail__section">
@@ -101,45 +110,60 @@ export default function SurveyDetailScreen({
             {sectionExists ? "Section added" : "Add section to draft"}
           </button>
         </div>
-        <div className="detail__list">
-          {survey.questions.map((question) => {
-            const selected = questionLookup.has(question.id);
-            return (
-              <div key={question.id} className="detail__item">
-                <div>
-                  <div className="detail__item-title">{question.text}</div>
-                  <div className="detail__item-meta">Type: {question.type}</div>
+        {hasQuestions ? (
+          <div className="detail__list">
+            {survey.questions.map((question) => {
+              const selected = questionLookup.has(question.id);
+              return (
+                <div key={question.id} className="detail__item">
+                  <div>
+                    <div className="detail__item-title">{question.text}</div>
+                    <div className="detail__item-meta">
+                      Type: {question.type || "—"}
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    className="button"
+                    onClick={() =>
+                      onAddQuestion({
+                        surveyId: survey.id,
+                        questionId: question.id,
+                        text: question.text,
+                      })
+                    }
+                    disabled={selected}
+                  >
+                    {selected ? "Added" : "Add question"}
+                  </button>
                 </div>
-                <button
-                  type="button"
-                  className="button"
-                  onClick={() =>
-                    onAddQuestion({
-                      surveyId: survey.id,
-                      questionId: question.id,
-                      text: question.text,
-                    })
-                  }
-                  disabled={selected}
-                >
-                  {selected ? "Added" : "Add question"}
-                </button>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="detail__empty">No questions available.</div>
+        )}
       </div>
 
       <div className="detail__section">
         <div className="detail__label">Answer Summaries</div>
-        <div className="detail__list">
-          {survey.answersSummary.map((summary) => (
-            <div key={summary.question_id} className="detail__item detail__item--tight">
-              <div className="detail__item-title">{summary.insight}</div>
-              <div className="detail__item-meta">Question ID: {summary.question_id}</div>
-            </div>
-          ))}
-        </div>
+        {hasSummaries ? (
+          <div className="detail__list">
+            {survey.answersSummary.map((summary) => (
+              <div
+                key={summary.question_id}
+                className="detail__item detail__item--tight"
+              >
+                <div className="detail__item-title">{summary.insight}</div>
+                <div className="detail__item-meta">
+                  Question ID: {summary.question_id}
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="detail__empty">No answer summaries available.</div>
+        )}
       </div>
     </section>
   );

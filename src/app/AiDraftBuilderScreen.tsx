@@ -28,6 +28,7 @@ const exampleObjectives = [
   "Create a concept test for skincare in RO and PL",
   "Build a usage & attitude tracker for skincare in Romania",
   "Draft a concept test for hydration benefits across markets",
+  "Design a daily skincare routine tracker in the UK",
 ];
 
 export default function AiDraftBuilderScreen({
@@ -59,7 +60,7 @@ export default function AiDraftBuilderScreen({
       <div className="draft__access">
         {permittedClient ? (
           <span>
-            Client scope: <strong>{permittedClient}</strong>
+            Client scope: <strong>{permittedClient}</strong> • Citations required
           </span>
         ) : (
           <span className="draft__warning">
@@ -94,7 +95,7 @@ export default function AiDraftBuilderScreen({
           type="button"
           className="button button--primary"
           onClick={handleGenerate}
-          disabled={!canGenerate}
+          disabled={!canGenerate || !objective.trim()}
         >
           Generate draft
         </button>
@@ -157,6 +158,15 @@ export default function AiDraftBuilderScreen({
 
           <div className="draft__confidence">
             <strong>Grounding note:</strong> {draft.confidenceNote}
+          </div>
+        </div>
+      )}
+
+      {!draft.objective && permittedClient && (
+        <div className="empty-state">
+          <div className="empty-state__title">No draft generated yet</div>
+          <div className="empty-state__body">
+            Provide an objective and generate a grounded draft with citations.
           </div>
         </div>
       )}

@@ -9,11 +9,12 @@ import type {
 } from "../types";
 
 const exampleQueries = [
-  "skincare routine Romania",
-  "concept test across RO and PL",
-  "hydration benefit",
-  "usage & attitude skincare",
-  "legacy skincare study",
+  "Skincare routine study in Romania",
+  "Concept test for skincare across RO and PL",
+  "Hydration benefit insights",
+  "Usage & attitude skincare survey",
+  "Legacy skincare studies in RO",
+  "Daily skincare routine UK",
 ];
 
 const emptyFilters: SearchFilters = {
@@ -52,6 +53,13 @@ const buildOptions = (surveys: NormalizedSurvey[]) => {
     categories: Array.from(categories).sort(),
     methodologies: Array.from(methodologies).sort(),
   };
+};
+
+const renderValue = (value: string | string[], fallback = "—") => {
+  if (Array.isArray(value)) {
+    return value.length ? value.join(", ") : fallback;
+  }
+  return value ? value : fallback;
 };
 
 type Props = {
@@ -104,7 +112,7 @@ export default function SearchScreen({
       </header>
 
       <section className="panel panel--tight">
-        <div className="panel__title">Search</div>
+        <div className="panel__title">Search Historical Surveys</div>
         <div className="search__grid">
           <label className="field field--full">
             <span className="field__label">Query</span>
@@ -119,7 +127,7 @@ export default function SearchScreen({
 
           <label className="field field--client">
             <span className="field__label field__label--critical">
-              Client Scope
+              Client Scope (required)
             </span>
             <select
               className="field__select"
@@ -147,6 +155,7 @@ export default function SearchScreen({
           </label>
         </div>
 
+        <div className="filter__title">Filters (optional)</div>
         <div className="filter__grid">
           <div className="filter__group">
             <div className="filter__label">Markets</div>
@@ -232,6 +241,12 @@ export default function SearchScreen({
 
       <section className="panel panel--tight">
         <div className="panel__title">Results</div>
+        {filters.client && (
+          <div className="scope-banner">
+            Client scope: <strong>{filters.client}</strong> • Results limited to
+            permitted surveys
+          </div>
+        )}
         {!filters.client && (
           <div className="empty-state">
             <div className="empty-state__title">Client scope required</div>
@@ -245,8 +260,9 @@ export default function SearchScreen({
           <div className="empty-state">
             <div className="empty-state__title">Enter a search query</div>
             <div className="empty-state__body">
-              Try one of these demo queries:
+              Start with a study topic, market, or methodology.
             </div>
+            <div className="empty-state__label">Suggested demo queries</div>
             <div className="example__list">
               {exampleQueries.map((example) => (
                 <button
@@ -266,13 +282,16 @@ export default function SearchScreen({
           <div className="empty-state">
             <div className="empty-state__title">No results</div>
             <div className="empty-state__body">
-              Adjust filters or try a broader query.
+              Try a broader query or relax filters. Results are client-scoped.
             </div>
           </div>
         )}
 
         {filters.client && query.trim() && results.length > 0 && (
           <div className="results">
+            <div className="results__summary">
+              {results.length} result{results.length === 1 ? "" : "s"} found
+            </div>
             {results.map((result) => {
               const isSameMarket =
                 filters.markets.length > 0 &&
@@ -310,17 +329,20 @@ export default function SearchScreen({
                     Matched content: “{result.snippet}”
                   </div>
                   <div className="result-card__why">
-                    {result.whyMatched.map((reason) => (
-                      <span key={reason} className="tag">
-                        {reason}
-                      </span>
-                    ))}
+                    <span className="result-card__label">Why matched</span>
+                    <div className="result-card__tags">
+                      {result.whyMatched.map((reason) => (
+                        <span key={reason} className="tag">
+                          {reason}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                   <div className="result-card__meta">
-                    <span>Markets: {result.markets.join(", ")}</span>
-                    <span>Language: {result.language}</span>
-                    <span>Category: {result.category}</span>
-                    <span>Methodology: {result.methodology}</span>
+                    <span>Markets: {renderValue(result.markets)}</span>
+                    <span>Language: {renderValue(result.language)}</span>
+                    <span>Category: {renderValue(result.category)}</span>
+                    <span>Methodology: {renderValue(result.methodology)}</span>
                   </div>
                   <div className="result-card__badges">
                     {result.isLegacy && (
