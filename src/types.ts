@@ -114,3 +114,9 @@ export interface AIDraftOutput {
   citations: AIDraftCitation[];
   confidenceNote: string;
 }
+
+export interface DraftRequest {
+  objective: string;
+  permittedClient: string;
+  filters: SearchFilters;
+}

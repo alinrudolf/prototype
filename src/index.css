@@ -24,6 +24,10 @@ select {
   font: inherit;
 }
 
+textarea {
+  font: inherit;
+}
+
 .page {
   max-width: 1200px;
   margin: 0 auto;
@@ -122,6 +126,15 @@ select {
   border: 1px solid #c5ced8;
   border-radius: 6px;
   padding: 10px 12px;
+  background: #ffffff;
+}
+
+.field__textarea {
+  border: 1px solid #c5ced8;
+  border-radius: 6px;
+  padding: 10px 12px;
+  min-height: 90px;
+  resize: vertical;
   background: #ffffff;
 }
 
@@ -323,6 +336,258 @@ select {
   cursor: pointer;
 }
 
+.button {
+  border: 1px solid #c5ced8;
+  background: #ffffff;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.button--primary {
+  background: #1f5ea8;
+  border-color: #1f5ea8;
+  color: #ffffff;
+}
+
+.button:disabled,
+.button--primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.detail__meta {
+  display: grid;
+  gap: 12px;
+}
+
+.detail__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.detail__title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.detail__subtitle {
+  font-size: 13px;
+  color: #5a6b7a;
+}
+
+.detail__badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.detail__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  font-size: 13px;
+  color: #1b1f24;
+}
+
+.detail__label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #5a6b7a;
+  margin-bottom: 6px;
+}
+
+.detail__access {
+  font-size: 12px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: #f1f4f8;
+  color: #425162;
+}
+
+.detail__why {
+  display: grid;
+  gap: 8px;
+}
+
+.detail__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.detail__section {
+  display: grid;
+  gap: 10px;
+}
+
+.detail__section-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+.detail__list {
+  display: grid;
+  gap: 8px;
+}
+
+.detail__item {
+  border: 1px solid #d9dde3;
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+.detail__item--tight {
+  align-items: flex-start;
+}
+
+.detail__item-title {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.detail__item-meta {
+  font-size: 12px;
+  color: #5a6b7a;
+}
+
+.reuse {
+  display: grid;
+  gap: 8px;
+}
+
+.reuse__item {
+  border: 1px solid #d9dde3;
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: grid;
+  gap: 4px;
+}
+
+.reuse__title {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.reuse__meta {
+  font-size: 12px;
+  color: #5a6b7a;
+}
+
+.draft__access {
+  font-size: 12px;
+  color: #425162;
+}
+
+.draft__warning {
+  color: #8b1c1c;
+}
+
+.draft__input {
+  display: grid;
+  gap: 10px;
+}
+
+.draft__output {
+  display: grid;
+  gap: 14px;
+}
+
+.draft__objective {
+  font-size: 13px;
+  color: #1b1f24;
+}
+
+.draft__sections {
+  display: grid;
+  gap: 12px;
+}
+
+.draft__section {
+  border: 1px solid #d9dde3;
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: grid;
+  gap: 6px;
+}
+
+.draft__section-title {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.draft__section-desc {
+  font-size: 12px;
+  color: #5a6b7a;
+}
+
+.draft__section-questions {
+  display: grid;
+  gap: 6px;
+}
+
+.draft__question {
+  font-size: 12px;
+  color: #1b1f24;
+}
+
+.draft__citation {
+  margin-left: 6px;
+  font-size: 11px;
+  color: #5a6b7a;
+}
+
+.draft__citations {
+  display: grid;
+  gap: 8px;
+}
+
+.draft__citation-list {
+  display: grid;
+  gap: 8px;
+}
+
+.draft__citation-item {
+  border: 1px solid #d9dde3;
+  border-radius: 8px;
+  padding: 8px 10px;
+  display: grid;
+  gap: 4px;
+}
+
+.draft__citation-title {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.draft__citation-meta {
+  font-size: 11px;
+  color: #5a6b7a;
+}
+
+.draft__confidence {
+  font-size: 12px;
+  background: #f1f4f8;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+.draft__reuse {
+  display: grid;
+  gap: 8px;
+}
+
 @media (max-width: 900px) {
   .search__grid {
     grid-template-columns: 1fr;
@@ -333,6 +598,10 @@ select {
     border-top: 3px solid #b71c1c;
     padding-left: 0;
     padding-top: 10px;
+  }
+
+  .detail__grid {
+    grid-template-columns: 1fr;
   }
 }
 

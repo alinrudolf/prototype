@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import SearchScreen from "./app/SearchScreen";
 import SurveyDetailScreen from "./app/SurveyDetailScreen";
+import AiDraftBuilderScreen from "./app/AiDraftBuilderScreen";
 import { getNormalizedSurveys } from "./lib/data";
 import type { DraftSelection, NormalizedSurvey, SearchResult } from "./types";
 
@@ -71,6 +72,17 @@ export default function App() {
         selection={draftSelection}
         onAddQuestion={handleAddQuestion}
         onAddSection={handleAddSection}
+      />
+      <AiDraftBuilderScreen
+        permittedClient={permittedClient}
+        filters={{
+          client: permittedClient,
+          markets: [],
+          languages: [],
+          categories: [],
+          methodologies: [],
+        }}
+        selection={draftSelection}
       />
     </div>
   );
