@@ -109,16 +109,33 @@ const adaptQuestionText = (text: string): { text: string; origin: QuestionOrigin
   return { text, origin: "reused" };
 };
 
+const getPrimaryMarket = (survey: NormalizedSurvey): string | undefined =>
+  survey.markets.length > 0 ? survey.markets[0] : undefined;
+
+const getRequestedMarket = (request: DraftRequest): string | undefined =>
+  request.filters.markets.length > 0 ? request.filters.markets[0] : undefined;
+
 const buildDraftQuestion = (
   survey: NormalizedSurvey,
-  text: string
+  text: string,
+  request: DraftRequest
 ): DraftQuestion => {
   const adaptation = adaptQuestionText(text);
+  const sourceMarket = getPrimaryMarket(survey);
+  const requestedMarket = getRequestedMarket(request);
+  const marketRelevance =
+    sourceMarket && requestedMarket
+      ? sourceMarket === requestedMarket
+        ? "same_market"
+        : "cross_market"
+      : undefined;
   return {
     text: adaptation.text,
     origin: adaptation.origin,
     sourceSurveyId: survey.id,
     sourceSurveyTitle: survey.title,
+    sourceMarket,
+    marketRelevance,
   };
 };
 
@@ -159,7 +176,7 @@ export const generateDraft = (
   supportingSurveys.forEach((survey) => {
     survey.questions.forEach((question) => {
       const intent = classifyIntent(question.text);
-      const draftQuestion = buildDraftQuestion(survey, question.text);
+      const draftQuestion = buildDraftQuestion(survey, question.text, request);
       if (intent === "screening") {
         screeningQuestions.push(draftQuestion);
         return;

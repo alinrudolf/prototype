@@ -93,6 +93,8 @@ export interface DraftQuestion {
   origin: QuestionOrigin;
   sourceSurveyId?: string;
   sourceSurveyTitle?: string;
+  sourceMarket?: string;
+  marketRelevance?: "same_market" | "cross_market";
 }
 
 export interface DraftSelection {
