@@ -139,6 +139,14 @@ export default function AiDraftBuilderScreen({
                               : ""}
                           </div>
                         )}
+                        {question.sourceMarket && question.marketRelevance && (
+                          <div className="draft__market">
+                            Market: {question.sourceMarket} ·{" "}
+                            {question.marketRelevance === "same_market"
+                              ? "Same market"
+                              : "Cross-market"}
+                          </div>
+                        )}
                       </div>
                     ))
                   ) : (

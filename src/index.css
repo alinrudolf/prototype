@@ -645,6 +645,11 @@ textarea {
   line-height: 1.35;
 }
 
+.draft__market {
+  font-size: 11px;
+  color: #5a6b7a;
+}
+
 .draft__citation {
   margin-left: 6px;
   font-size: 11px;
