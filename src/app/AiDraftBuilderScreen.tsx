@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+﻿import { useMemo, useState } from "react";
 import { getNormalizedSurveys } from "../lib/data";
 import { generateDraft } from "../lib/aiDraft";
 import type {
@@ -120,12 +120,25 @@ export default function AiDraftBuilderScreen({
                 <div className="draft__section-desc">{section.description}</div>
                 <div className="draft__section-questions">
                   {section.questions.length > 0 ? (
-                    section.questions.map((question) => (
-                      <div key={question.questionId} className="draft__question">
-                        {question.text}
-                        <span className="draft__citation">
-                          ({question.surveyId})
+                    section.questions.map((question, index) => (
+                      <div
+                        key={`${question.text}-${index}`}
+                        className="draft__question"
+                      >
+                        <span className={`origin origin--${question.origin}`}>
+                          {question.origin.toUpperCase()}
                         </span>
+                        <span className="draft__question-text">
+                          {question.text}
+                        </span>
+                        {question.sourceSurveyTitle && (
+                          <div className="draft__source">
+                            Source: {question.sourceSurveyTitle}
+                            {question.sourceSurveyId
+                              ? ` (${question.sourceSurveyId})`
+                              : ""}
+                          </div>
+                        )}
                       </div>
                     ))
                   ) : (
