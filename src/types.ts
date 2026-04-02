@@ -86,6 +86,15 @@ export interface ReusableQuestionRef {
   text: string;
 }
 
+export type QuestionOrigin = "reused" | "adapted" | "generated";
+
+export interface DraftQuestion {
+  text: string;
+  origin: QuestionOrigin;
+  sourceSurveyId?: string;
+  sourceSurveyTitle?: string;
+}
+
 export interface DraftSelection {
   questions: ReusableQuestionRef[];
   sections: {
@@ -98,7 +107,7 @@ export interface DraftSelection {
 export interface AIDraftSection {
   title: string;
   description: string;
-  questions: ReusableQuestionRef[];
+  questions: DraftQuestion[];
 }
 
 export interface AIDraftCitation {
