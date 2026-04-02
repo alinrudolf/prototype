@@ -1,7 +1,9 @@
 import type {
   AIDraftOutput,
   DraftRequest,
+  DraftQuestion,
   NormalizedSurvey,
+  QuestionOrigin,
   ReusableQuestionRef,
 } from "../types";
 import { applySurveyFilters } from "./filters";
@@ -57,6 +59,69 @@ const scoreSurveyForDraft = (
   return score;
 };
 
+type DraftIntent = "screening" | "core" | "wrapup";
+
+const classifyIntent = (text: string): DraftIntent => {
+  const value = text.toLowerCase();
+
+  const screeningSignals = [
+    "how often",
+    "how frequently",
+    "cât de des",
+    "jak często",
+    "routine",
+    "usage",
+    "consum",
+    "apply",
+  ];
+  if (screeningSignals.some((signal) => value.includes(signal))) {
+    return "screening";
+  }
+
+  const coreSignals = [
+    "benefit",
+    "beneficii",
+    "korzy",
+    "appeal",
+    "associate",
+    "concept",
+    "awareness",
+    "important",
+  ];
+  if (coreSignals.some((signal) => value.includes(signal))) {
+    return "core";
+  }
+
+  return "wrapup";
+};
+
+const adaptQuestionText = (text: string): { text: string; origin: QuestionOrigin } => {
+  const lowered = text.toLowerCase();
+  if (lowered.includes("this product")) {
+    return { text: text.replace(/this product/gi, "the concept"), origin: "adapted" };
+  }
+  if (lowered.includes("benefits")) {
+    return {
+      text: text.replace(/benefits/gi, "benefits you expect"),
+      origin: "adapted",
+    };
+  }
+  return { text, origin: "reused" };
+};
+
+const buildDraftQuestion = (
+  survey: NormalizedSurvey,
+  text: string
+): DraftQuestion => {
+  const adaptation = adaptQuestionText(text);
+  return {
+    text: adaptation.text,
+    origin: adaptation.origin,
+    sourceSurveyId: survey.id,
+    sourceSurveyTitle: survey.title,
+  };
+};
+
 const buildConfidenceNote = (
   surveys: NormalizedSurvey[],
   request: DraftRequest
@@ -87,21 +152,50 @@ export const generateDraft = (
   const supportingSurveys = ranked.slice(0, 3);
   const recommendedQuestions = pickTopQuestions(supportingSurveys, 6);
 
+  const screeningQuestions: DraftQuestion[] = [];
+  const coreQuestions: DraftQuestion[] = [];
+  const wrapUpQuestions: DraftQuestion[] = [];
+
+  supportingSurveys.forEach((survey) => {
+    survey.questions.forEach((question) => {
+      const intent = classifyIntent(question.text);
+      const draftQuestion = buildDraftQuestion(survey, question.text);
+      if (intent === "screening") {
+        screeningQuestions.push(draftQuestion);
+        return;
+      }
+      if (intent === "core") {
+        coreQuestions.push(draftQuestion);
+        return;
+      }
+      wrapUpQuestions.push(draftQuestion);
+    });
+  });
+
+  const generatedWrapUp: DraftQuestion = {
+    text: "What final feedback would you like to share about the concept?",
+    origin: "generated",
+  };
+
+  if (!wrapUpQuestions.some((item) => item.origin === "generated")) {
+    wrapUpQuestions.push(generatedWrapUp);
+  }
+
   const sections = [
     {
-      title: "Screening & Context",
-      description: "Confirm eligibility and set context for the study.",
-      questions: recommendedQuestions.slice(0, 2),
+      title: "Screening",
+      description: "Confirm eligibility and usage context.",
+      questions: screeningQuestions,
     },
     {
       title: "Core Evaluation",
-      description: "Assess reactions to the concept and key benefits.",
-      questions: recommendedQuestions.slice(2, 5),
+      description: "Assess reactions, benefits, and concept fit.",
+      questions: coreQuestions,
     },
     {
       title: "Wrap-Up",
       description: "Capture final feedback and open-ended inputs.",
-      questions: recommendedQuestions.slice(5),
+      questions: wrapUpQuestions,
     },
   ];
 
