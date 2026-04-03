@@ -98,10 +98,9 @@ export default function SearchScreen({
   return (
     <div className="stack">
       <header className="header header--tight">
-        <div className="header__eyebrow">Toluna Internal Research</div>
         <div className="header__title">Survey Intelligence Search</div>
         <div className="header__meta">
-          Local mock data only • Client scope enforced before results
+          Prototype for interview purposes. Uses simulated data only.
         </div>
       </header>
 
