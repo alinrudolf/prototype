@@ -30,6 +30,25 @@ const pickTopQuestions = (
   return questions;
 };
 
+const pickTopDraftQuestions = (
+  surveys: NormalizedSurvey[],
+  maxQuestions: number,
+  request: DraftRequest
+): DraftQuestion[] => {
+  const questions: DraftQuestion[] = [];
+
+  surveys.forEach((survey) => {
+    survey.questions.forEach((question) => {
+      if (questions.length >= maxQuestions) {
+        return;
+      }
+      questions.push(buildDraftQuestion(survey, question.text, request));
+    });
+  });
+
+  return questions;
+};
+
 const scoreSurveyForDraft = (
   survey: NormalizedSurvey,
   request: DraftRequest
@@ -167,7 +186,11 @@ export const generateDraft = (
   );
 
   const supportingSurveys = ranked.slice(0, 3);
-  const recommendedQuestions = pickTopQuestions(supportingSurveys, 6);
+  const recommendedQuestions = pickTopDraftQuestions(
+    supportingSurveys,
+    6,
+    request
+  );
 
   const screeningQuestions: DraftQuestion[] = [];
   const coreQuestions: DraftQuestion[] = [];

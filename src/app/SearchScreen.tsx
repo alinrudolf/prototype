@@ -66,12 +66,14 @@ type Props = {
   selection: ResultSelection;
   draftSelection: DraftSelection;
   onSelect: (selection: ResultSelection, client: string) => void;
+  onFiltersChange: (filters: SearchFilters) => void;
 };
 
 export default function SearchScreen({
   selection,
   draftSelection,
   onSelect,
+  onFiltersChange,
 }: Props) {
   const surveys = useMemo(() => getNormalizedSurveys(), []);
   const options = useMemo(() => buildOptions(surveys), [surveys]);
@@ -86,20 +88,12 @@ export default function SearchScreen({
     return searchSurveys(surveys, query, filters, filters.client);
   }, [surveys, query, filters]);
 
-  const handleMultiToggle = (
-    key: keyof SearchFilters,
-    value: string
-  ) => {
-    setFilters((prev) => {
-      const current = prev[key] as string[];
-      if (current.includes(value)) {
-        return { ...prev, [key]: current.filter((item) => item !== value) };
-      }
-      return { ...prev, [key]: [...current, value] };
-    });
-  };
-
   const clearSelection = () => onSelect(null, filters.client);
+
+  const updateFilters = (next: SearchFilters) => {
+    setFilters(next);
+    onFiltersChange(next);
+  };
 
   return (
     <div className="stack">
@@ -137,13 +131,13 @@ export default function SearchScreen({
             <select
               className="field__select"
               value={filters.client}
-              onChange={(event) =>
-                setFilters((prev) => {
-                  const nextClient = event.target.value;
-                  onSelect(null, nextClient);
-                  return { ...prev, client: nextClient };
-                })
-              }
+              onChange={(event) => {
+                updateFilters({
+                  ...filters,
+                  client: event.target.value,
+                });
+                onSelect(null, event.target.value);
+              }}
             >
               <option value="">Select permitted client…</option>
               {options.clients.map((client) => (
@@ -174,7 +168,12 @@ export default function SearchScreen({
                       ? "chip chip--active"
                       : "chip"
                   }
-                  onClick={() => handleMultiToggle("markets", market)}
+                  onClick={() => {
+                    const next = filters.markets.includes(market)
+                      ? { ...filters, markets: filters.markets.filter((m) => m !== market) }
+                      : { ...filters, markets: [...filters.markets, market] };
+                    updateFilters(next);
+                  }}
                 >
                   {market}
                 </button>
@@ -194,7 +193,12 @@ export default function SearchScreen({
                       ? "chip chip--active"
                       : "chip"
                   }
-                  onClick={() => handleMultiToggle("languages", language)}
+                  onClick={() => {
+                    const next = filters.languages.includes(language)
+                      ? { ...filters, languages: filters.languages.filter((l) => l !== language) }
+                      : { ...filters, languages: [...filters.languages, language] };
+                    updateFilters(next);
+                  }}
                 >
                   {language}
                 </button>
@@ -214,7 +218,12 @@ export default function SearchScreen({
                       ? "chip chip--active"
                       : "chip"
                   }
-                  onClick={() => handleMultiToggle("categories", category)}
+                  onClick={() => {
+                    const next = filters.categories.includes(category)
+                      ? { ...filters, categories: filters.categories.filter((c) => c !== category) }
+                      : { ...filters, categories: [...filters.categories, category] };
+                    updateFilters(next);
+                  }}
                 >
                   {category}
                 </button>
@@ -234,7 +243,15 @@ export default function SearchScreen({
                       ? "chip chip--active"
                       : "chip"
                   }
-                  onClick={() => handleMultiToggle("methodologies", methodology)}
+                  onClick={() => {
+                    const next = filters.methodologies.includes(methodology)
+                      ? {
+                          ...filters,
+                          methodologies: filters.methodologies.filter((m) => m !== methodology),
+                        }
+                      : { ...filters, methodologies: [...filters.methodologies, methodology] };
+                    updateFilters(next);
+                  }}
                 >
                   {methodology}
                 </button>

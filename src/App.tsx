@@ -3,7 +3,12 @@ import SearchScreen from "./app/SearchScreen";
 import SurveyDetailScreen from "./app/SurveyDetailScreen";
 import AiDraftBuilderScreen from "./app/AiDraftBuilderScreen";
 import { getNormalizedSurveys } from "./lib/data";
-import type { DraftSelection, NormalizedSurvey, SearchResult } from "./types";
+import type {
+  DraftSelection,
+  NormalizedSurvey,
+  SearchFilters,
+  SearchResult,
+} from "./types";
 
 type SelectionState = {
   surveyId: string;
@@ -15,6 +20,13 @@ export default function App() {
   const surveys = useMemo(() => getNormalizedSurveys(), []);
   const [selection, setSelection] = useState<SelectionState>(null);
   const [permittedClient, setPermittedClient] = useState("");
+  const [activeFilters, setActiveFilters] = useState<SearchFilters>({
+    client: "",
+    markets: [],
+    languages: [],
+    categories: [],
+    methodologies: [],
+  });
   const [draftSelection, setDraftSelection] = useState<DraftSelection>({
     questions: [],
     sections: [],
@@ -78,6 +90,7 @@ export default function App() {
         }}
         selection={selection}
         draftSelection={draftSelection}
+        onFiltersChange={setActiveFilters}
       />
       <SurveyDetailScreen
         survey={selectedSurvey}
@@ -89,13 +102,7 @@ export default function App() {
       />
       <AiDraftBuilderScreen
         permittedClient={permittedClient}
-        filters={{
-          client: permittedClient,
-          markets: [],
-          languages: [],
-          categories: [],
-          methodologies: [],
-        }}
+        filters={activeFilters}
         selection={draftSelection}
         onRemoveQuestion={handleRemoveQuestion}
         onRemoveSection={handleRemoveSection}

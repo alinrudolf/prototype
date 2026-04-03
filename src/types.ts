@@ -121,7 +121,7 @@ export interface AIDraftCitation {
 export interface AIDraftOutput {
   objective: string;
   sections: AIDraftSection[];
-  recommendedQuestions: ReusableQuestionRef[];
+  recommendedQuestions: DraftQuestion[];
   citations: AIDraftCitation[];
   confidenceNote: string;
 }

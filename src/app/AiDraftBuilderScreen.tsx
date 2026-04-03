@@ -162,12 +162,31 @@ export default function AiDraftBuilderScreen({
           <div className="draft__recommendations">
             <div className="detail__label">Recommended reusable questions</div>
             <div className="draft__section-questions">
-              {draft.recommendedQuestions.map((question) => (
-                <div key={question.questionId} className="draft__question">
-                  {question.text}
-                  <span className="draft__citation">
-                    ({question.surveyId})
+              {draft.recommendedQuestions.map((question, index) => (
+                <div
+                  key={`${question.text}-${index}`}
+                  className="draft__question"
+                >
+                  <span className={`origin origin--${question.origin}`}>
+                    {question.origin.toUpperCase()}
                   </span>
+                  <span className="draft__question-text">{question.text}</span>
+                  {question.sourceSurveyTitle && (
+                    <div className="draft__source">
+                      Source: {question.sourceSurveyTitle}
+                      {question.sourceSurveyId
+                        ? ` (${question.sourceSurveyId})`
+                        : ""}
+                    </div>
+                  )}
+                  {question.sourceMarket && question.marketRelevance && (
+                    <div className="draft__market">
+                      Market: {question.sourceMarket} ·{" "}
+                      {question.marketRelevance === "same_market"
+                        ? "Same market"
+                        : "Cross-market"}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
